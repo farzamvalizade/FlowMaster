@@ -45,12 +45,13 @@ FlowMaster is a project management application designed to help users efficientl
    ```
 
 ## API Endpoints
-- `POST /api/auth/register/` - Register a new user.
+- `POST /api/account/create/` - Register a new user.
 - `POST /api/auth/login/` - Log in a user.
 - `GET /api/account/profile/` - Get user profile details.
 - `GET /api/projects/` - Get a list of projects.
 - `POST /api/projects/create/` - Create a new project.
 - `GET /api/account/profile/invite-projects/` - Get invited projects.
+and others........
 
 ## Project Structure
 ```

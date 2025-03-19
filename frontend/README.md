@@ -1,8 +1,28 @@
-# React + Vite
+# FlowMaster Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+FlowMaster is a project management application that helps users efficiently manage their tasks and projects. This repository contains the frontend, built using React and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Features
+- User profile page with personal details and skills.
+- Fetches user profile data from the backend.
+- Displays user-created projects and invited projects.
+- Handles project invitations and displays acceptance status.
+- Supports both light mode and dark mode.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- **React**: For building the UI components.
+- **Tailwind CSS**: For styling the frontend.
+- **Axios**: For making API requests.
+
+## Installation
+After Clone Project Run this commands:
+```bash
+npm install
+npm run dev
+```
+## Build
+For Get build from Frontend run this commands:
+```bash
+npm run build
+npm run preview
+```

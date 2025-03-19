@@ -55,7 +55,7 @@ and others........
 
 ## Project Structure
 ```
-flowmaster-backend/
+flowmaster/backend/
 │── account/          # User authentication and profile management
 │── projects/         # Project-related models, views, and serializers
 │── config/           # Django project settings and configurations

@@ -17,7 +17,7 @@ FlowMaster is a project management application designed to help users efficientl
 1. **Clone the repository:**
    ```sh
    git clone https://github.com/yourusername/flowmaster-backend.git
-   cd flowmaster-backend
+   cd flowmaster/backend
    ```
 
 2. **Create a virtual environment and activate it:**

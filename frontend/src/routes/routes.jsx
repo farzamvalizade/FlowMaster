@@ -8,6 +8,8 @@ const Contact = lazy(() => import("./Contact.jsx"));
 const Profile = lazy(() => import("./Profile.jsx"));
 const NotFound = lazy(() => import("./NotFound"));
 
+
+// Routes
 const routes = [
   { path: "/", element: <Home /> },
   { path: "/about", element: <About /> },

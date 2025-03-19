@@ -48,7 +48,7 @@ const Login = () => {
           <FormButton text="Login" />
         </form>
       </AuthBox>
-
+      {/* Modal */}
       {user && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-gray-400 dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center relative animate-fadeIn w-1/3">

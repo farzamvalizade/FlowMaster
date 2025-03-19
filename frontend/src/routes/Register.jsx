@@ -48,7 +48,7 @@ const Register = () => {
           <FormButton text="Register" />
         </form>
       </AuthBox>
-
+      {/* Modal */}
       {show && (
         <div className="fixed inset-0 flex items-center justify-center bg-gray-500 dark:bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-center relative animate-fadeIn w-full md:w-1/3">

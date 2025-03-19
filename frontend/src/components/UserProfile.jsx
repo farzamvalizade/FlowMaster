@@ -68,25 +68,32 @@ const UserProfile = ({ userDetail }) => {
 
   return (
     <div className="flex justify-center items-center space-x-4 md:space-x-16 mt-8 md:mt-4">
+      {/*Profile Image Sectiom*/}
       <div className="relative group">
+        {/* Profile Image */}
         <img 
           src={profileImage} 
           alt="Profile" 
           className="w-32 h-24 rounded-full border-4 border-blue-500" 
         />
+        {/* Edit Button For Edit Profile Image */}
         <label className="absolute bottom-0 right-0 p-2 opacity-0 group-hover:opacity-100 transform scale-90 group-hover:scale-100 transition duration-300 bg-white dark:bg-gray-800 rounded-full shadow-md">
           <i className="fa-regular fa-pen-to-square"></i>
           <input type="file" className="hidden" accept="image/*" onChange={HandleProfileImageChange}  />
         </label>
       </div>
+      {/* Profile Detail */}
       <div className="relative group">
+        {/* Detail */}
         <h2 className="text-4xl font-bold mb-1 text-blue-600 dark:text-blue-400 uppercase">{userDetail.username}</h2>
         <p className="text-gray-600 dark:text-gray-300">{data.email}</p>
         <p className="mt-2 mr-8 md:mr-12 italic text-gray-500 dark:text-gray-400">"{data.bio}"</p>
+        {/* Edit Button For Email and Bio */}
         <button onClick={HandleClick} className="absolute bottom-0 right-0 p-2 opacity-0 group-hover:opacity-100 transform scale-90 group-hover:scale-100 transition duration-300 bg-white dark:bg-gray-800 rounded-full shadow-md">
           <i className="fa-regular fa-pen-to-square"></i>
         </button>
       </div>
+      {/* Modal */}
       {show && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
           <div className="bg-gray-400 dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center relative animate-fadeIn w-1/3">

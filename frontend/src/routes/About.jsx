@@ -2,12 +2,14 @@
 const About = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900 p-6">
+      {/* FLow Master Section */}
       <div className="max-w-2xl bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg text-center">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white md:text-4xl">About Flow Master</h1>
         <p className="text-gray-600 dark:text-gray-300 mt-4 text-xl">
           Flow Master is a task management project developed by Farzam Valizade.
           This tool helps you manage your projects efficiently.
         </p>        
+        {/* Creator Section  */}
         <div className="mt-6">
           <h2 className="text-xl md:text-2xl font-semibold text-gray-800 dark:text-white">About Me</h2>
           <p className="text-gray-600 dark:text-gray-300 mt-2 text-lg md:text-xl">

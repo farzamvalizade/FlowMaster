@@ -6,7 +6,7 @@ const Contact = () => {
         <p className="text-gray-600 dark:text-gray-300 mt-4">
           Feel free to reach out through any of the following platforms:
         </p>
-        
+        {/* Contacts Way`` */} 
         <div className="flex flex-col gap-4 mt-6 text-lg">
           <a href="mailto:farzam.valizadeh.2020@gmail.com" className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-black dark:hover:text-white duration-300">
             <i className="fas fa-envelope"></i> farzam.valizadeh.2020@gmail.com

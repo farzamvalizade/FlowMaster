@@ -7,8 +7,8 @@ const InviteProjectCard = ({ project, userId }) => {
   const accessToken = Cookies.get("access_token");
   const [showAccept, setShowAccept] = useState(false);
   const [showReject, setShowReject] = useState(false);
-  const [showModal, setShowModal] = useState(false); // Modal visibility state
-  const [modalAction, setModalAction] = useState(""); // To track if the action is accept or reject
+  const [showModal, setShowModal] = useState(false); 
+  const [modalAction, setModalAction] = useState(""); 
 
   const HandleAcceptClick = async () => {
     try {
@@ -67,21 +67,27 @@ const InviteProjectCard = ({ project, userId }) => {
 
   return (
     <div className="block p-4 bg-gray-200 dark:bg-gray-700 rounded-xl shadow-lg">
+      {/* Project Title */}
       <h4 className="text-lg font-semibold text-blue-600 dark:text-blue-400">{project.title}</h4>
+      {/* Projectt Desc */}
       <p className="text-gray-600 dark:text-gray-300">
         {project.description.length > 10
           ? `${project.description.slice(0, 10)}...`
           : project.description}
       </p>
+      {/* Create Date */}
       <p className="text-sm text-black dark:text-white bg-blue-400 rounded-lg px-2 py-1 mt-2">
         Created: {new Date(project.created_at).toLocaleDateString()}
       </p>
+      {/* Project DeadLine */}
       {project.deadline && (
         <p className="text-sm text-red-500 dark:text-red-400">
           Deadline: {new Date(project.deadline).toLocaleDateString()}
         </p>
       )}
+      {/* User Status */}
       <p
+
         className={`text-sm text-gray-900 dark:text-white mt-2 px-2 py-1 rounded-lg 
         ${
           project.user_status === 'p'
@@ -103,6 +109,7 @@ const InviteProjectCard = ({ project, userId }) => {
                   : 'No Status'
         }
       </p>
+      {/* Button For Accept or Reject */}
       {project.user_status === 'p' ? (
         <div className="mt-2 flex justify-between">
           <button onClick={HandleAccept} className="py-2 px-4 bg-green-500 rounded-3xl text-xs hover:cursor-pointer">Accept</button>

@@ -107,7 +107,7 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-black dark:text-white flex justify-center items-center p-6">
       <div className="relative w-full max-w-4xl bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-        
+        {/* Logout & DashBoard */} 
         <div className="absolute top-4 left-4 right-4 flex justify-between items-center">
           <Link
             to="/dashboard"
@@ -132,7 +132,7 @@ const Profile = () => {
             </Link>
           </button>
         </div>
-
+        {/* UserProfile */}
         <UserProfile userDetail={userDetail} />
 
         {/* Skills Section */}

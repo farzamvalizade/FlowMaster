@@ -23,6 +23,7 @@ class Project(models.Model):
     def __str__(self):
         return f"{self.title}"
 
+# Task Class
 class Task(models.Model):
     # STATUS CHOICES
     STATUS_CHOICES = [

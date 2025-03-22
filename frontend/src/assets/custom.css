@@ -80,3 +80,13 @@
   to { width: 0; }
 }
 
+@keyframes moveStripes {
+  from { background-position: 0 0; }
+  to { background-position: 30px 30px; }
+}
+
+@keyframes progressMove {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(2%); }
+  100% { transform: translateX(0); }
+}

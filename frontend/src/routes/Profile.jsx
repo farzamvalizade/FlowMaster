@@ -152,47 +152,52 @@ const Profile = () => {
               onClick={() => setShowSkillOptions(!showSkillOptions)}
               className="px-2 py-1 text-sm bg-gray-200 dark:bg-gray-600 rounded-full shadow-md transition duration-300 hover:bg-gray-300 dark:hover:bg-gray-700"
             >
-              { !showSkillOptions ? <i className="fa-solid fa-plus"></i> : <i className="fa-solid fa-minus"></i> }
+              {!showSkillOptions ? <i className="fa-solid fa-plus"></i> : <i className="fa-solid fa-minus"></i>}
             </button>
           </div>
 
           {/* Skill Selection & Creation */}
           {showSkillOptions && (
-            <div className="mt-3 flex items-center gap-2">
-              {/* Select or Enter Skill */}
-              <select
-                className="p-1 text-sm border rounded-md w-36 dark:bg-gray-700 dark:text-white"
-                onChange={(e) => setSelectedSkill(e.target.value)}
-                value={selectedSkill || ""}
-              >
-                <option value="" disabled>Select skill</option>
-                {newSkill?.map((skill, index) => (
-                  <option key={index} value={skill.name}>{skill.name}</option>
-                ))}
-              </select>
+            <div className="mt-3 flex gap-2 relative">
+              {/* Input Field */}
+              <div className="relative">
+                <input
+                  type="text"
+                  placeholder="New skill"
+                  value={selectedSkill}
+                  onChange={(e) => setSelectedSkill(e.target.value)}
+                  className="p-1 text-sm border rounded-md w-32 dark:bg-gray-700 dark:text-white"
+                />
 
-              <span className="text-gray-500 text-sm">or</span>
-
-              <input
-                type="text"
-                placeholder="New skill"
-                value={selectedSkill}
-                onChange={(e) => setSelectedSkill(e.target.value)}
-                className="p-1 text-sm border rounded-md w-32 dark:bg-gray-700 dark:text-white"
-              />
+                {/* Suggestions Dropdown */}
+                {selectedSkill && (
+                  <div className={`absolute top-full left-0 mt-1 w-32 bg-white dark:bg-gray-800 border rounded-md shadow-md z-10`}>
+                    {newSkill
+                      .filter(skill => skill.name.toLowerCase().includes(selectedSkill.toLowerCase()))
+                      .map((skill, index) => (
+                        <div
+                          key={index}
+                          onClick={() => setSelectedSkill(skill.name)}
+                          className="px-2 py-1 text-sm cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+                        >
+                          {skill.name}
+                        </div>
+                      ))
+                    }
+                  </div>
+                )}
+              </div>
 
               {/* Add Button */}
               <button 
                 onClick={handleAddSkill}
-                className="bg-blue-500 text-white text-sm py-1 px-3 rounded-md hover:bg-blue-600 transition"
+                className="w-32 bg-blue-500 text-white text-sm py-1 px-2 rounded-md hover:bg-blue-600 transition"
               >
                 Add
               </button>
             </div>
           )}
-
         </div>
-
 
         {/* Projects Section */}
         <div className="mt-6 border border-gray-600 dark:border-gray-300 p-8 rounded-xl">

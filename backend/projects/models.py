@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 # Create your models here.
 
 
@@ -13,6 +14,7 @@ class Project(models.Model):
     ]
 
     title = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True,blank=True)
     description = models.TextField()
     deadline = models.DateField(null=True , blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='ongoing')
@@ -22,6 +24,12 @@ class Project(models.Model):
 
     def __str__(self):
         return f"{self.title}"
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
 
 # Task Class
 class Task(models.Model):

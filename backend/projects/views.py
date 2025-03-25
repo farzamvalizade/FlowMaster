@@ -15,7 +15,7 @@ from .permissions import IsProjectManagerOrIsProjectMember,IsTaskAssignedOrReadO
 class ProjectList(ListAPIView):
     serializer_class = ProjectListSerializer
     permission_classes = [IsAuthenticated]  
-    filter_fields = ['status']
+    filterset_fields = ['status','title','slug']
     ordering_fields = ['deadline', 'created_at', 'updated_at']
     search_fields = ['title', 'description', 'status']
     ordering = ['-created_at']

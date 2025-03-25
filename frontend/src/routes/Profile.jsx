@@ -101,7 +101,7 @@ const Profile = () => {
   };
 
   if (!userDetail) {
-    return <div className="text-center text-black dark:text-white">Loading...</div>;
+    return <div className="text-center bg-gray-300 text-gray-600 border border-gray-600 text-2xl rounded-lg p-8 my-60 mx-8">Loading... Something Went Wrong. Please Refresh The Page or Login.</div>;
   }
   
   return (

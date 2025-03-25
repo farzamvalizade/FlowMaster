@@ -72,7 +72,7 @@ const UserProfile = ({ userDetail }) => {
       <div className="relative group">
         {/* Profile Image */}
         <img 
-          src={profileImage} 
+          src={profileImage ? profileImage : "https://placehold.co/130x95/png"} 
           alt="Profile" 
           className="w-32 h-24 rounded-full border-4 border-blue-500" 
         />
@@ -87,7 +87,7 @@ const UserProfile = ({ userDetail }) => {
         {/* Detail */}
         <h2 className="text-4xl font-bold mb-1 text-blue-600 dark:text-blue-400 uppercase">{userDetail.username}</h2>
         <p className="text-gray-600 dark:text-gray-300">{data.email}</p>
-        <p className="mt-2 mr-8 md:mr-12 italic text-gray-500 dark:text-gray-400">"{data.bio}"</p>
+    <p className="mt-2 mr-8 md:mr-12 italic text-gray-500 dark:text-gray-400">"{data.bio ? data.bio : "No Bio x" }"</p>
         {/* Edit Button For Email and Bio */}
         <button onClick={HandleClick} className="absolute bottom-0 right-0 p-2 opacity-0 group-hover:opacity-100 transform scale-90 group-hover:scale-100 transition duration-300 bg-white dark:bg-gray-800 rounded-full shadow-md">
           <i className="fa-regular fa-pen-to-square"></i>

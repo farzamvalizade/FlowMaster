@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 const ProjectCard = ({ project }) => {
   return (
     <Link
-      to={`/project/${project.id}`}
+      to={`/project/${project.slug}`}
       className="block p-4 bg-gray-200 dark:bg-gray-700 rounded-xl shadow-lg hover:scale-105 transition-transform duration-300"
     >
       {/* Project Title */}
@@ -36,7 +36,7 @@ const ProjectCard = ({ project }) => {
       </p>
       {/* Project DeadLine */}
       {project.deadline && (
-        <p className="text-sm text-red-500 dark:text-red-400">
+        <p className="text-sm text-red-500 dark:text-red-600 mt-2 bg-gray-300 rounded-lg px-2 py-1 font-semibold">
           Deadline: {new Date(project.deadline).toLocaleDateString()}
         </p>
       )}

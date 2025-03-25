@@ -3,7 +3,7 @@ import "./assets/custom.css";
 import "./assets/fonts.css";
 import { ThemeProvider } from "./context/Theme";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import React,{ Suspense } from "react";
+import React,{ Suspense,useEffect } from "react";
 
 import useAuth from "./hooks/auth.jsx";
 import Navbar from "./components/Navbar";

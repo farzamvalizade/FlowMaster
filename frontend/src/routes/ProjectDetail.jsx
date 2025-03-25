@@ -5,19 +5,30 @@ import Cookies from "js-cookie";
 import ProjectDetailCard from "../components/ProjectDetailCard.jsx";
 
 const ProjectDetail = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const accessToken = Cookies.get("access_token");
-  
+
   const [project, setProject] = useState(null);
+  const [error, setError] = useState(null);
 
   const getProjectDetail = async () => {
     try {
-      const response = await axios.get(`http://localhost:8000/api/projects/${id}`, {
+      const project = await axios.get(`http://localhost:8000/api/projects/?slug=${slug}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
+      
+      const response = await axios.get(`http://localhost:8000/api/projects/${project.data[0].id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
       setProject(response.data);
+      setError(null);
     } catch (err) {
-      console.log(err);
+      if (err.response && [401, 403, 404].includes(err.response.status)) {
+        setError("Not Found or Access Denied");
+      } else {
+        setError("An unexpected error occurred.");
+      }
     }
   };
 
@@ -25,7 +36,11 @@ const ProjectDetail = () => {
     getProjectDetail();
   }, []);
 
-  return <ProjectDetailCard project={project} />;
+  if (error) {
+    return <div className="text-center bg-red-300 text-red-800 text-xl py-8 my-60 mx-8 rounded-lg">{error}</div>;
+  }
+
+  return project ? <ProjectDetailCard project={project} /> : <div>Loading...</div>;
 };
 
 export default ProjectDetail;

@@ -34,11 +34,11 @@ const ProjectDetailCard = ({ project }) => {
       <div className="w-full mt-4 relative">
         <div className="w-full bg-gray-300 dark:bg-gray-600 rounded-lg h-6 overflow-hidden">
           <div
-            className="h-full bg-green-500 transition-[width] duration-1000 ease-in-out relative flex items-center justify-center animate-[progressMove_2s_infinite_linear]"
-            style={{ width: `${completionPercentage}%` }}
+            className={`h-full ${ completionPercentage ? "bg-green-500" : "bg-[#ed1e24]"} transition-[width] duration-1000 ease-in-out relative flex items-center justify-center animate-[progressMove_2s_infinite_linear]`}
+            style={{ width: `${completionPercentage ? completionPercentage+"%" : "100%" }` }}
           >
             <span className="text-white text-sm font-semibold z-10">
-              Completed: {completionPercentage}%
+              { completionPercentage ? "Compeleted :"+completionPercentage+"%" : "In Progress" }
             </span>
             <div className="absolute top-0 left-0 w-full h-full bg-green-600 opacity-30 bg-[linear-gradient(135deg,rgba(255,255,255,0.2) 25%,transparent 25%,transparent 50%,rgba(255,255,255,0.2) 50%,rgba(255,255,255,0.2) 75%,transparent 75%,transparent)] bg-[size:30px_30px] animate-[moveStripes_2s_linear_infinite]"></div>
           </div>

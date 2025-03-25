@@ -20,7 +20,7 @@ const routes = [
   { path: "/dashboard", element: <Dashboard /> },
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
-  { path: "/project/:id", element: <ProjectDetail /> },
+  { path: "/project/:slug", element: <ProjectDetail /> },
   { path: "*", element: <NotFound /> },
 ];
 

@@ -49,6 +49,7 @@ class Task(models.Model):
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="tasks")
     title = models.CharField(max_length=255)
+    slug = models.SlugField(blank=True,unique=True)    
     description = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     priority = models.CharField(max_length=10, choices=PRIORITY_CHOICES, default='medium')
@@ -62,7 +63,10 @@ class Task(models.Model):
     def __str__(self):
         return f"{self.title}"
     
-
+    def save(self,*args,**kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
 class ProjectMember(models.Model):
 
     STATUS_CHOICES = [

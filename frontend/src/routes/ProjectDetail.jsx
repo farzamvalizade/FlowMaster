@@ -13,15 +13,33 @@ const ProjectDetail = () => {
 
   const getProjectDetail = async () => {
     try {
+      
       const project = await axios.get(`http://localhost:8000/api/projects/?slug=${slug}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
+
+      const projectId = project.data[0].id;
+
       
-      const response = await axios.get(`http://localhost:8000/api/projects/${project.data[0].id}`, {
+      const response = await axios.get(`http://localhost:8000/api/projects/${projectId}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
 
-      setProject(response.data);
+      const projectData = response.data;
+
+      
+      const now = new Date();
+      const deadline = new Date(projectData.deadline);
+
+      if (projectData.status === "ongoing" && deadline < now) {
+        await updateProjectStatus(projectId, "canceled");
+        projectData.status = "canceled";
+      } else if (projectData.tasks.every((task) => task.status === "done")) {
+        await updateProjectStatus(projectId, "done");
+        projectData.status = "done";
+      }
+
+      setProject(projectData);
       setError(null);
     } catch (err) {
       if (err.response && [401, 403, 404].includes(err.response.status)) {
@@ -29,6 +47,19 @@ const ProjectDetail = () => {
       } else {
         setError("An unexpected error occurred.");
       }
+    }
+  };
+
+
+  const updateProjectStatus = async (projectId, status) => {
+    try {
+      await axios.patch(
+        `http://localhost:8000/api/projects/${projectId}/`,
+        { status },
+        { headers: { Authorization: `Bearer ${accessToken}` } }
+      );
+    } catch (err) {
+      console.error("Failed to update project status:", err);
     }
   };
 
@@ -44,3 +75,4 @@ const ProjectDetail = () => {
 };
 
 export default ProjectDetail;
+

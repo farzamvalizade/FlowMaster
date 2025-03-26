@@ -67,7 +67,7 @@ class TaskList(ListAPIView):
 class TaskDetailInfo(RetrieveUpdateDestroyAPIView):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated,IsTaskAssignedOrReadOnly]
-
+    lookup_field = "slug"
     def get_queryset(self):
             return Task.objects.filter(
                 models.Q(project__user=self.request.user) |  

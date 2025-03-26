@@ -8,6 +8,7 @@ const Contact = lazy(() => import("./Contact.jsx"));
 const Profile = lazy(() => import("./Profile.jsx"));
 const Dashboard = lazy(() => import("./Dashboard.jsx"));
 const ProjectDetail = lazy(() => import("./ProjectDetail.jsx"));
+const TaskDetail = lazy(() => import("./TaskDetail.jsx"));
 const NotFound = lazy(() => import("./NotFound"));
 
 
@@ -21,6 +22,7 @@ const routes = [
   { path: "/login", element: <Login /> },
   { path: "/register", element: <Register /> },
   { path: "/project/:slug", element: <ProjectDetail /> },
+  { path: "task/:slug", element: <TaskDetail /> },
   { path: "*", element: <NotFound /> },
 ];
 

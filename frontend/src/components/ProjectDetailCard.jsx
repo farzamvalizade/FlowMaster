@@ -17,6 +17,17 @@ const ProjectDetailCard = ({ project }) => {
 
   // Modal State
   const [showModal, setShowModal] = useState(false);
+  const [show,setShow] = useState(false);
+  const [cTask, setCTask] = useState({
+    title: "",
+    description: "",
+    priority: "",
+    due_date: "",
+    project: project.id,
+    assigned_to: "",
+    status: "pending",
+  });
+
   const [description, setDescription] = useState(project.description);
   const [status, setStatus] = useState(project.status);
   const [deadline, setDeadline] = useState(project.deadline);
@@ -31,32 +42,17 @@ const ProjectDetailCard = ({ project }) => {
       const formData = new FormData();
       formData.append("description", description);
       formData.append("deadline", deadline);
-
-      await axios.patch(`http://localhost:8000/api/projects/${project.id}/`, formData, {
+      formData.append("status",status)
+      await axios.put(`http://localhost:8000/api/projects/${project.id}/`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      if (project.status != status ) {
-        const formsData = new FormData();
-
-        try {
-          await axios.put(`http://localhost:8000/api/project/status/${project.id}/`,formsData,{
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
-          project.status = status;
-        } catch (err) {
-          setError("Failed to update project.")
-        }
-      }
-
       project.description = description;
       project.deadline = deadline;
+      project.status = status;
       setShowModal(false);
       setError(null);
     } catch (err) {
@@ -64,6 +60,36 @@ const ProjectDetailCard = ({ project }) => {
     }
     setLoading(false);
   };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCTask((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleDateChange = (date) => {
+    setCTask((prev) => ({ ...prev, due_date: date?.toISOString().split("T")[0] }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      await axios.post("http://localhost:8000/api/tasks/create/",cTask,{
+        headers : { 
+          "Content-Type": "multipart/form-data",
+          Authorization : `Bearer ${accessToken}`,
+        }
+      });
+
+      setShow(false);
+      setError(null);
+    } catch (err) {
+      setError("Failed to create Task.");
+      console.error(err)
+    }
+    setLoading(false);
+  };
+
 
   return (
     <>
@@ -81,14 +107,14 @@ const ProjectDetailCard = ({ project }) => {
           <div className="flex items-center gap-4 mt-4">
             <span
               className={`px-4 py-2 text-base font-medium rounded-lg ${
-                project.status === "ongoing"
+                  status === "ongoing"
                   ? "bg-yellow-500 text-white"
-                  : project.status === "completed"
+                  : status === "completed"
                   ? "bg-green-500 text-white"
                   : "bg-red-400 text-white"
               }`}
             >
-              {project.status === "ongoing" ? <i className="fas fa-spinner animate-spin mr-1"></i> : project.status === "completed" ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i> } {project.status === "ongoing" ? "On Going" : project.status === "completed" ? "Completed" : "Canceled"}
+              {status === "ongoing" ? <i className="fas fa-spinner animate-spin mr-1"></i> : status === "completed" ? <i className="fa-solid fa-check"></i> : <i className="fa-solid fa-xmark"></i> } {status === "ongoing" ? "On Going" : status === "completed" ? "Completed" : status === "Canceled"}
             </span>
 
             {/* Completion Percentage */}
@@ -149,18 +175,20 @@ const ProjectDetailCard = ({ project }) => {
               </Link>
             ))}
           </ul>
+          
+          <div className="flex flex-row gap-4">
+            {/* Create Task Button */}
+            <button className="mt-4 flex items-center gap-2 py-2 px-4 bg-green-500 hover:bg-green-400 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all active:scale-95" onClick={() => setShow(true)}><i className="fa-solid fa-plus"></i> Task</button>
 
-
-
-          {/* Edit Button */}
-          <button
-            onClick={() => setShowModal(true)}
-            className="mt-4 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-500 hover:shadow-lg transition-all active:scale-95"
-          >
-            <i className="fa-solid fa-pen-to-square"></i>
-            <span>Edit Project</span>
-          </button>
-
+            {/* Edit Button */}
+            <button
+              onClick={() => setShowModal(true)}
+              className="mt-4 flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-500 hover:shadow-lg transition-all active:scale-95"
+            >
+              <i className="fa-solid fa-pen-to-square"></i>
+              <span>Edit Project</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -174,13 +202,6 @@ const ProjectDetailCard = ({ project }) => {
             >
               <i className="fa-solid fa-circle-xmark text-xl"></i>
             </button>
-
-            {error && (
-              <div className="flex items-center gap-2 p-3 mb-4 text-red-500 bg-red-900 bg-opacity-20 rounded-lg animate-shake">
-                <i className="fa-solid fa-circle-exclamation"></i>
-                <span>{error}</span>
-              </div>
-            )}
 
             <form onSubmit={handleUpdateProject}>
               <label className="block text-gray-700 dark:text-gray-200 text-left">Project Description</label>
@@ -202,21 +223,106 @@ const ProjectDetailCard = ({ project }) => {
                 <option value="canceled">Canceled</option>
               </select>
 
-              <label className="block text-gray-700 dark:text-gray-200 text-left mt-4">Project Deadline</label>
+              <label className="block text-gray-700 dark:text-gray-200 text-left mt-4 text-center">Project Deadline</label>
               <DatePicker
                 selected={deadline ? new Date(deadline) : null}
                 onChange={(date) => setDeadline(date?.toISOString().split("T")[0])}
                 className="w-full p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-white"
                 dateFormat="yyyy-MM-dd"
               />
-
+              {error && (
+                <div className="flex items-center gap-2 p-3 mb-4 text-red-500 bg-red-900 bg-opacity-20 rounded-lg animate-shake mt-2">
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  <span>{error}</span>
+                </div>
+              )}
               <button type="submit" className="w-full py-2 bg-green-500 text-white font-bold rounded-lg mt-4">
                 {loading ? "Updating..." : "Save Changes"}
               </button>
             </form>
+            
           </div>
         </div>
       )}
+
+      {show && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+          <div className="bg-gray-400 dark:bg-gray-800 p-6 rounded-lg shadow-lg text-center relative w-1/3 animate-fadeIn">
+            <button
+              className="absolute top-2 right-2 text-gray-800 hover:text-gray-600 dark:text-gray-400 dark:hover:text-white"
+              onClick={() => setShow(false)}
+            >
+              <i className="fa-solid fa-circle-xmark text-xl"></i>
+            </button>
+
+            <form onSubmit={handleSubmit}>
+              <label className="block text-gray-700 dark:text-gray-200 text-left">Title</label>
+              <input
+                type="text"
+                name="title"
+                value={cTask.title}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-white"
+                required
+              />
+
+              <label className="block text-gray-700 dark:text-gray-200 text-left mt-4">Description</label>
+              <textarea
+                name="description"
+                value={cTask.description}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-white"
+                required
+              />
+
+              <label className="block text-gray-700 dark:text-gray-200 text-left mt-4">Priority</label>
+              <select
+                name="priority"
+                value={cTask.priority}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-white"
+                required
+              >
+                <option value="">Select Priority</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+
+              <label className="block text-gray-700 dark:text-gray-200 text-left mt-4">Due Date</label>
+              <DatePicker
+                selected={cTask.due_date ? new Date(cTask.due_date) : null}
+                onChange={handleDateChange}
+                className="w-full p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-white"
+                dateFormat="yyyy-MM-dd"
+                required
+              />
+
+              <label className="block text-gray-700 dark:text-gray-200 text-left mt-4">Assigned To</label>
+              <input
+                type="text"
+                name="assigned_to"
+                value={cTask.assigned_to}
+                onChange={handleChange}
+                className="w-full p-2 rounded bg-gray-200 dark:bg-gray-700 dark:text-white"
+                required
+              />
+
+              {error && (
+                <div className="flex items-center gap-2 p-3 mb-4 text-red-500 bg-red-900 bg-opacity-20 rounded-lg animate-shake mt-2">
+                  <i className="fa-solid fa-circle-exclamation"></i>
+                  <span>{error}</span>
+                </div>
+              )}
+
+              <button type="submit" className="w-full py-2 bg-green-500 text-white font-bold rounded-lg mt-4">
+                {loading ? "Saving..." : "Create Task"}
+              </button>
+            </form>
+          </div>
+        </div>
+      ) }  
+
     </>
   );
 };

@@ -76,7 +76,7 @@ const ProjectDetailCard = ({ project }) => {
     try {
       await axios.post("http://localhost:8000/api/tasks/create/",cTask,{
         headers : { 
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
           Authorization : `Bearer ${accessToken}`,
         }
       });
